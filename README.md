@@ -27,13 +27,13 @@ Now, we'll spawn a new `sh` process in a new UTS namespace (all other namespaces
 *Note: it could have been bash instead of sh, but changing shell emphasis this is a new process and not the same.*
 
 ```
-# unshare -u sh
+#> unshare -u sh
 ```
 
 Let's edit the hostname. As there's no standard linux util to do it we'll craft the system call by hand in python. We'll run the `sethostname` syscall https://man7.org/linux/man-pages/man2/sethostname.2.html. According to the documentation it's the syscall number 170.
 
 ```
-python
+#> python
 Python 2.7.17 (default, Nov  7 2019, 10:07:09)
 [GCC 7.4.0] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
@@ -52,14 +52,14 @@ Type "help", "copyright", "credits" or "license" for more information.
 We can then use the `hostname` binary to read the hostname.
 
 ```
-root@DESKTOP-2GRFJ11:/mnt/c/Users/Work session# hostname
+#> hostname
 not-my-computer
 ```
 
 The hostname has been changed in our namespace. Now if we close bash and get back to the bash outside the namespace we just created we can see the hostname has not been changed for it.
 ```
-root@DESKTOP-2GRFJ11:/mnt/c/Users/Work session# logout
-root@DESKTOP-2GRFJ11:/mnt/c/Users/Work session# hostname
+#> exit
+#> hostname
 DESKTOP-2GRFJ11
 ```
 
@@ -89,7 +89,7 @@ First, we want to find where croup controllers are mounted:
 
 It usually is `/sys/fs/cgroup/`
 
-We'll create our cgroup
+We'll create our PID cgroup
 
 ```
 #> cd /sys/fs/cgroup/pids
@@ -126,6 +126,4 @@ Then, here comes the leap of faith. Let's try to fork bomb ourselves.
 ```
 
 Hopefully this should not break your linux box and throw a couple of errors because bash does not have enough pids.
-
-
 
