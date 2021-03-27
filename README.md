@@ -12,7 +12,7 @@ Name is a reference to https://github.com/jpetazzo/dessine-moi-un-cluster.
 ## Requirements
 * a linux machine
 * bash
-* python2
+* python (2 or 3)
 
 ## Howto
 
@@ -42,7 +42,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> import ctypes
 >>> libc = ctypes.CDLL(None)
 >>> syscall = libc.syscall
+>>> # for python 2
 >>> new_hostname = "not-my-computer"
+>>> # for python 3
+>>> new_hostname = b"not-my-computer"
 >>> syscall(170, new_hostname, len(new_hostname))
 0
 >>> # mission is a success, let's exit python
